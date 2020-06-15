@@ -4,4 +4,4 @@ jobs:
     docker:
       - image: circleci/node
     steps:
-      - run: npm test
+      - run: npm test/test
