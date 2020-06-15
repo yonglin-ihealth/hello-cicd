@@ -2,6 +2,6 @@ machine: # 虛擬機的環境
   node:
     version: 12.0.0 #把剛剛得到的node version填到這裡
 
-  jobs:
+  # jobs:
     test:
       - npm test  #每一個deploy到github上的commit都會執行npm test
