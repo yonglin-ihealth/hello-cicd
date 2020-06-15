@@ -2,7 +2,6 @@ version: 2.1
 jobs:
   build:
     docker:
-      -image: circleci/node@12.0.0
+      - image: circleci/node@12.0.0
     steps:
-      run:
-        - npm test  #每一個deploy到github上的commit都會執行npm test
+      - run: npm test
