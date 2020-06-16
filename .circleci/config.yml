@@ -4,10 +4,7 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
-      - run:
-          name: Versions
-          command: npm version
-      - checkout
+      # - checkout
       - run:
           name: Install dependencies
           command: npm ci
