@@ -5,4 +5,4 @@ jobs:
       - image: circleci/node
     steps:
       - run: 
-        app_src_directory: test/test
+        working_directory: test/test
