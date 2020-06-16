@@ -5,5 +5,5 @@ jobs:
       - image: node:10
     steps:
       - run:
-        name: Run a test
-        command: npm run test
+          name: Run a test
+          command: npm run test
