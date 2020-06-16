@@ -5,5 +5,8 @@ jobs:
       - image: node:12
     steps:
       - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
           name: Run a test
           command: npm test
