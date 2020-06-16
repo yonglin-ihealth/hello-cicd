@@ -3,5 +3,6 @@ jobs:
   docker:
     - image: circleci/node
   steps:
-    - run: 
-      working_directory: test/test
+    - run:
+      name: Run a test
+      command: npm run test
