@@ -1,10 +1,67 @@
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/node:12
+#     steps:
+#       - run: npm install mocha-junit-reporter
+#       - run:
+#           name: Run a test
+#           command: npm test
+
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: circleci/node:12
+
+commands:
+  test-nodejs:
     steps:
-      - run: npm install mocha-junit-reporter
       - run:
-          name: Run a test
+          name: Versions
+          command: npm version
+      - checkout
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Test
           command: npm test
+      - save-npm-cache
+  save-npm-lock:
+    steps:
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+  save-npm-cache:
+    steps:
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm/_cacache
+
+jobs:
+  node-v10:
+    docker:
+      - image: node:10
+    steps:
+      - test-nodejs
+  node-v12:
+    docker:
+      - image: node:12
+    steps:
+      - test-nodejs
+  node-v14:
+    docker:
+      - image: node:14
+    steps:
+      - test-nodejs
+
+workflows:
+  node-multi-build:
+    jobs:
+      - node-v10
+      - node-v12
+      - node-v14
