@@ -5,9 +5,5 @@ jobs:
       - image: node:12
     steps:
       - run:
-        name: Versions
-        command: npm version
-      - checkout
-      - run:
           name: Run a test
           command: npm test
