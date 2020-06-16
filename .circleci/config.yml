@@ -9,6 +9,9 @@ jobs:
           command: npm version
       - checkout
       - run:
+        name: Install dependencies
+        command: npm ci
+      - run:
           name: Run a test
           command: npm test
 
